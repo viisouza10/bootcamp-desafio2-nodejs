@@ -44,7 +44,19 @@ app.post("/repositories", (request, response) => {
 });
 
 app.put("/repositories/:id", (request, response) => {
-  // TODO
+  const { id } = request.params;
+  const { title, url, techs } = request.body;
+  const index = repositories.findIndex((repository) => {
+    return repository.id === id;
+  });
+
+  if (index < 0) {
+    response.status(400).json({ error: "repositório não encontrado" });
+  }
+
+  repositories[index] = { ...repositories[index], title, url, techs };
+
+  return response.json(repositories[index]);
 });
 
 app.delete("/repositories/:id", (request, response) => {
